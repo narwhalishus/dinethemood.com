@@ -20,7 +20,7 @@ export default function App() {
       handleAuth();
       setIsAuth(true);
     }
-  }, []);
+  }, [isAuth, setIsAuth]);
 
   async function handleSearch(query: string) {
     setLoading(true);
