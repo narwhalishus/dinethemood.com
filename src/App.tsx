@@ -13,14 +13,15 @@ interface Restaurant {
 export default function App() {
   const [results, setResults] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(false);
-  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    if (!isAuth) {
+    const hasAuthed = localStorage.getItem("has_authed");
+
+    if (!hasAuthed) {
+      localStorage.setItem("has_authed", "true");
       handleAuth();
-      setIsAuth(true);
     }
-  }, [isAuth, setIsAuth]);
+  }, []);
 
   async function handleSearch(query: string) {
     setLoading(true);
