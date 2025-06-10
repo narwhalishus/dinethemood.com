@@ -4,7 +4,7 @@ import { createPublicOauthClient } from "@osdk/oauth";
 const client_id: string = "693eed6c2eaf79fecc2dc99013cb8d9d";
 const url: string = "https://bryao.usw-18.palantirfoundry.com";
 const ontologyRid: string = "ri.ontology.main.ontology.5802d919-3578-43e0-910d-2a3f187d8dee";
-const redirectUrl: string = "http://dinethemood/auth/callback";
+const redirectUrl: string = "http://dinethemood.com/auth/callback";
 const scopes: string[] = [
 	"api:use-ontologies-read",
 	"api:use-ontologies-write",
