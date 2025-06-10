@@ -20,9 +20,6 @@ export default function App() {
       const resp = await client(diningMoodApi).executeFunction({
         userDescription: query
       });
-      // resp.data.results should be your array of Restaurant
-      console.log(resp);
-      // Map the API response to Restaurant objects (dummy values for missing fields)
       setResults(
         Array.isArray(resp)
           ? resp.map((item) => ({
