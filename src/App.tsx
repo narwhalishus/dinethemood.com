@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Header } from "./components/Header";
 import { SearchBar } from "./components/SearchBar";
 import { diningMoodApi } from "@dinethemoodapp/sdk";
-import { client, handleAuth } from "./foundryClient";
+import { client } from "./foundryClient";
 
 interface Restaurant {
   name: string;
@@ -14,33 +14,21 @@ export default function App() {
   const [results, setResults] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const hasAuthed = localStorage.getItem("has_authed");
-
-    if (!hasAuthed) {
-      localStorage.setItem("has_authed", "true");
-      handleAuth();
-    }
-  }, []);
-
   async function handleSearch(query: string) {
     setLoading(true);
     try {
-      const resultSet = await client(diningMoodApi).executeFunction({
+      const resp = await client(diningMoodApi).executeFunction({
         userDescription: query
       });
-      const page = await resultSet.fetchPage({ $pageSize: 10 });
+
       setResults(
-        page.data.map(b => ({
-          name: b.name ?? "Unknown Restaurant",
-          categories:
-            typeof b.categories === "string"
-              ? b.categories.split(", ")
-              : Array.isArray(b.categories)
-              ? b.categories
-              : [],
-          vibe: b.vibeLlm ?? "Unknown Vibe"
+        Array.isArray(resp)
+          ? resp.map((item) => ({
+          name: item.name || "Unknown Restaurant",
+          categories: item.categories.split(", ") || [],
+          vibe: item.vibeLlm || "Unknown Vibe"
         }))
+          : []
       );
     } catch (e) {
       console.error("Search error:", e);
@@ -54,13 +42,15 @@ export default function App() {
     <div>
       <Header />
       <SearchBar onSearch={handleSearch} />
+
       {loading && (
         <p className="results" style={{ textAlign: "center" }}>
           Loading…
         </p>
       )}
+
       <div className="results">
-        {results.map(r => (
+        {results.map((r) => (
           <div key={r.name} className="card">
             <h2>{r.name}</h2>
             <div className="categories">{r.categories.join(", ")}</div>
