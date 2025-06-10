@@ -13,14 +13,12 @@ interface Restaurant {
 export default function App() {
   const [results, setResults] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const hasCode = !!params.get("code");
-    const hasToken = !!localStorage.getItem("foundry_token");
-
-    if (!hasToken && !hasCode) {
+    if (!isAuth) {
       handleAuth();
+      setIsAuth(true);
     }
   }, []);
 
