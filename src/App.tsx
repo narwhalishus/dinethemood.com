@@ -54,7 +54,7 @@ export default function App() {
           <div key={r.name} className="card">
             <h2>{r.name}</h2>
             <div className="categories">{r.categories.join(", ")}</div>
-            <div className="reason">“{r.vibe}”</div>
+            <div className="vibe">“{r.vibe}”</div>
           </div>
         ))}
       </div>
